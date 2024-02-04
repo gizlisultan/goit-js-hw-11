@@ -1,34 +1,45 @@
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
+
 
 
 const form = document.querySelector(".search-form")
-const input = form.querySelector(".search-form")
-const startBtn = form.querySelector(".start-btn")
 const galleryUl = document.querySelector(".gallery")
+const loader = document.querySelector('.loader')
 
 const URL = "https://pixabay.com/api"
 const KEY = "42188740-c0be7e81c485970d884fe2cff"
- const serverRequest = `${URL}?key=${KEY}`
+const serverRequest = `${URL}?key=${KEY}`
 
 
 
 form.addEventListener("submit", searchImg)
- 
+loader.style.display = "none";
+
+
 function searchImg(evt) {
     evt.preventDefault()
-    const searchItem = evt.target.elements.query.value;
+    loader.style.display = "block"
+    const searchItem = evt.currentTarget.elements.query.value;
     fetchPhoto(searchItem).then((data) => {
+        loader.style.display = "none"
         if (!data.hits.length) {
-         iziToast.error({
+            iziToast.error({
                 title: "Error",
                 message:
                     "Sorry, there are no images matching your search query. Please try again!",
-         })
+            })
         }
-
-        galleryUl.insertAdjacentHTML("beforeend", galerryMarkup(data.hits)) 
+        
+        galleryUl.innerHTML = galerryMarkup(data.hits)
+        const refreshPage = new SimpleLightbox(".gallery a", {
+            captionsData: "alt",
+            captionDelay: 250,
+        });
+       refreshPage.refresh()    
 
     }).catch((err) => console.log(err)).finally(form.reset())
 }
