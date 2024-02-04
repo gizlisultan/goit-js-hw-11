@@ -1,8 +1,7 @@
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
+
 
 const form = document.querySelector(".search-form")
 const input = form.querySelector(".search-form")
@@ -28,7 +27,7 @@ function searchImg(evt) {
                     "Sorry, there are no images matching your search query. Please try again!",
          })
         }
-        
+
         galleryUl.insertAdjacentHTML("beforeend", galerryMarkup(data.hits)) 
 
     }).catch((err) => console.log(err)).finally(form.reset())
@@ -128,22 +127,4 @@ function galerryMarkup(arr) {
     )
     .join('');
     
-}
-function onFetchError(error){
-  iziToast.error({
-    title: 'Error',
-    message:
-      'OOps... Plese try again',
-  });
-}
-
-
-/* 
-fetch(serverRequest).then((resp) => {
-    if (!resp.ok) {
-        throw new Error(resp.statusText)
-    }
-    return resp.json()
-} ).then((data) => console.log(data)).catch((error) =>  cosole.error(error))
-
-*/
+}*/
